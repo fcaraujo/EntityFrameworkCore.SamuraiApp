@@ -13,8 +13,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\EFC.Samurai.Data\EFC.SamuraiApp.Data.csproj" />
-    <ProjectReference Include="..\EFC.Samurai.Domain\EFC.SamuraiApp.Domain.csproj" />
+    <ProjectReference Include="..\EFC.SamuraiApp.Data\EFC.SamuraiApp.Data.csproj" />
   </ItemGroup>
 
 </Project>
