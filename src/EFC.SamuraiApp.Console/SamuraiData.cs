@@ -32,7 +32,7 @@ namespace EFC.SamuraiApp.Console
                 ctx.SaveChanges();
             }
         }
-
+        
         public static void InsertMultipleSamurais()
         {
             var s1 = new Samurai
@@ -52,7 +52,7 @@ namespace EFC.SamuraiApp.Console
                 ctx.SaveChanges();
             }
         }
-
+        
         public static void InsertMultipleDifferentObjs()
         {
             var s1 = new Samurai { Name = "Nobunaga" };
@@ -136,6 +136,26 @@ namespace EFC.SamuraiApp.Console
             _ctx.SaveChanges();
         }
 
+        /// <summary>
+        /// When using a not tracked object, we'd better use its FKs!
+        /// </summary>
+        /// <param name="samraiId"></param>
+        public static void AddChildToExistingObjectWhileNotTracked(int samuraiId)
+        {
+            var q = new Quote
+            {
+                Text = "I must know my parent key, to create a related (and not tracked) data.",
+                SamuraiId = samuraiId
+            };
+
+            using (var otherCtx = new SamuraiContext())
+            {
+                otherCtx.Quotes.Add(q);
+
+                otherCtx.SaveChanges();
+            }
+        }
+
         #endregion Inserts
 
 
@@ -153,6 +173,55 @@ namespace EFC.SamuraiApp.Console
             else
             {
                 System.Console.WriteLine("No samurai found.");
+            }
+        }
+
+        public static void UpdateRelatedDataWhenNotTracked()
+        {
+            var s1 = _ctx.Samurais
+                         .Include(s => s.Quotes)
+                         .Where(s => s.Quotes.Count() > 0)
+                         .FirstOrDefault();
+
+            var q = s1.Quotes.FirstOrDefault();
+
+            if (q != null)
+            {
+                q.Text += " Did you hear that?!";
+
+                using (var otherCtx = new SamuraiContext())
+                {
+                    // EF will keep track of s1 and will update it togheter q
+                    // S1 is not tracked, like using .AsNoTracking() 
+                    // DbContext instance ChangeTracker.StateManager.ChangedCount will be 2
+                    otherCtx.Quotes.Update(q);
+                    
+                    otherCtx.SaveChanges();
+                }
+            }
+        }
+
+        public static void UpdateRelatedDataWithNoTrackingCorrectly()
+        {
+            var s1 = _ctx.Samurais
+                         .Include(s => s.Quotes)
+                         .Where(s => s.Quotes.Count() > 0)
+                         .FirstOrDefault();
+
+            var q = s1.Quotes.FirstOrDefault();
+
+            if (q != null)
+            {
+                q.Text += " Did you hear that?!";
+
+                using (var otherCtx = new SamuraiContext())
+                {
+                    otherCtx.Entry(q).State = EntityState.Modified;
+
+                    // At this time EF will update ONLY quote
+                    // ChangeTracker.StateManager.ChangedCount will be 1
+                    otherCtx.SaveChanges();
+                }
             }
         }
 
@@ -219,7 +288,37 @@ namespace EFC.SamuraiApp.Console
 
             System.Console.WriteLine($"Samurai name: {f?.Name}");
         }
-        
+
+        public static IEnumerable<Samurai> EagerLoadingSamuraiWithQuotes()
+        {
+            // When there are some grandchild relationship, use .ThenInclude(parent = parent.GrandChild)
+            var samuraiWithQuotes = _ctx.Samurais
+                                        .Include(s => s.Quotes)
+                                        .ToList();
+
+            // Here we have ALL samurais, who has some quote it, will be loaded too
+            return samuraiWithQuotes;
+        }
+
+
+        public static IEnumerable<Samurai> LoadingSamuraiWithQuotes()
+        {
+            var samuraiWithQuotes = _ctx.Samurais
+                                        //.Include(s => s.Quotes)
+                                        .Where(s => s.Quotes.Count() > 0)
+                                        .ToList();
+
+            // At this point, with no Include Quotes, loaded Samurai won't have Quotes loaded, but with a new 
+            // query that load its quotes, it will populate in memory
+            var samuraiIds = samuraiWithQuotes.Select(s => s.Id).ToList();
+
+            _ctx.Quotes.Where(q => samuraiIds.Contains(q.SamuraiId))
+                       .ToList();
+
+            // Now, samuraiWithQuotes have its quotes
+            return samuraiWithQuotes;
+        }
+
         #endregion Queries
     }
 }

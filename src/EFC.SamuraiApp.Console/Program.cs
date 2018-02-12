@@ -16,12 +16,17 @@
             //SamuraiData.InsertNewSamuraiToAnExistentBattle();
             //SamuraiData.InsertNewSamuraiToAnExistentBattle();
             //SamuraiData.InsertASecretSamuraiWithNewBattle();
+            //SamuraiData.AddChildToExistingObjectWhileNotTracked(7);
 
             // Queries
             //SamuraiData.QueryASecretSamurai();
+            //SamuraiData.EagerLoadingSamuraiWithQuotes();
+            //SamuraiData.LoadingSamuraiWithQuotes();
 
             // Updates
             //SamuraiData.UpdateSamuraiLastName();
+            //SamuraiData.UpdateRelatedDataWhenNotTracked();
+            //SamuraiData.UpdateRelatedDataWithNoTrackingCorrectly();
 
             // Deletes
             //SamuraiData.DeleteSomeNobus();
