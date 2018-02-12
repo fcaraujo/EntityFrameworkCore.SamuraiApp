@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace EFC.SamuraiApp.Domain
+﻿namespace EFC.SamuraiApp.Domain
 {
     public class SamuraiBattle
     {

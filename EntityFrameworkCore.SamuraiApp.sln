@@ -5,9 +5,11 @@ VisualStudioVersion = 15.0.27130.2026
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "EFC.SamuraiApp.Domain", "src\EFC.SamuraiApp.Domain\EFC.SamuraiApp.Domain.csproj", "{DB9683DE-7AC1-424C-A800-30653E435069}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EFC.SamuraiApp.Data", "src\EFC.SamuraiApp.Data\EFC.SamuraiApp.Data.csproj", "{BEB31403-A309-4B45-908D-43E12158EE57}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "EFC.SamuraiApp.Data", "src\EFC.SamuraiApp.Data\EFC.SamuraiApp.Data.csproj", "{BEB31403-A309-4B45-908D-43E12158EE57}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EFC.SamuraiApp.Web", "src\EFC.SamuraiApp.Web\EFC.SamuraiApp.Web.csproj", "{B5E06804-5BFD-4EB0-8218-E130255D7B8D}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "EFC.SamuraiApp.Web", "src\EFC.SamuraiApp.Web\EFC.SamuraiApp.Web.csproj", "{B5E06804-5BFD-4EB0-8218-E130255D7B8D}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EFC.SamuraiApp.Console", "src\EFC.SamuraiApp.Console\EFC.SamuraiApp.Console.csproj", "{160F012D-EC98-48DC-A6D5-CD5E54543917}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -27,6 +29,10 @@ Global
 		{B5E06804-5BFD-4EB0-8218-E130255D7B8D}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{B5E06804-5BFD-4EB0-8218-E130255D7B8D}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{B5E06804-5BFD-4EB0-8218-E130255D7B8D}.Release|Any CPU.Build.0 = Release|Any CPU
+		{160F012D-EC98-48DC-A6D5-CD5E54543917}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{160F012D-EC98-48DC-A6D5-CD5E54543917}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{160F012D-EC98-48DC-A6D5-CD5E54543917}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{160F012D-EC98-48DC-A6D5-CD5E54543917}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

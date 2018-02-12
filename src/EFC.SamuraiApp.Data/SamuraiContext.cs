@@ -7,7 +7,7 @@ namespace EFC.SamuraiApp.Data
 {
     public class SamuraiContext : DbContext
     {
-        public static readonly LoggerFactory ConsoleLoggerFactory = new LoggerFactory(
+        private static readonly LoggerFactory ConsoleLoggerFactory = new LoggerFactory(
             new [] { new ConsoleLoggerProvider(
                 (category, level) => category == DbLoggerCategory.Database.Command.Name && 
                                      level    == LogLevel.Information, true
@@ -17,10 +17,13 @@ namespace EFC.SamuraiApp.Data
 
         #region Ctor
 
+        public SamuraiContext()
+        { }
+
         public SamuraiContext(DbContextOptions<SamuraiContext> options)
             : base(options)
         { }
-
+        
         #endregion Ctor
 
 
@@ -35,16 +38,18 @@ namespace EFC.SamuraiApp.Data
 
         #region Override Methods
 
-        protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
+        protected override void OnConfiguring(DbContextOptionsBuilder opts)
         {
-            //base.OnConfiguring(optionsBuilder);
-
-            //var connStr = "Server=(localdb)\\mssqllocaldb; Database=SamuraiAppCore; Trusted_Connection=True;";
             //optionsBuilder.UseSqlServer(connStr);
+            // TODO: review if IsConfigured when it's instanced by SamuraiContext(DbContextOptions<SamuraiContext> options)
+            if (!opts.IsConfigured)
+            {
+                var connStr = "Server=(localdb)\\mssqllocaldb; Database=SamuraiAppCore; Trusted_Connection=True;";
+                opts.UseSqlServer(connStr, o => o.MaxBatchSize(500));
+            }
 
-            optionsBuilder
-                //.UseSqlServer(connStr)
-                .UseLoggerFactory(ConsoleLoggerFactory);
+            opts.UseLoggerFactory(ConsoleLoggerFactory)
+                .EnableSensitiveDataLogging();
         }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
